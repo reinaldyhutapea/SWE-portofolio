@@ -37,9 +37,7 @@ function initNavigation() {
             const target = document.getElementById(href.slice(1));
             if (!target) return;
             event.preventDefault();
-            const headerOffset = window.matchMedia('(max-width: 768px)').matches
-                ? 0
-                : siteHeader ? siteHeader.getBoundingClientRect().height : 0;
+            const headerOffset = siteHeader ? siteHeader.getBoundingClientRect().height + 16 : 16;
             window.scrollTo({
                 top: Math.max(0, target.offsetTop - headerOffset),
                 behavior: prefersReducedMotion() ? 'auto' : 'smooth'
@@ -55,6 +53,24 @@ function initNavigation() {
             const isOpen = navMenu.classList.toggle('open');
             menuToggle.setAttribute('aria-expanded', String(isOpen));
             menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            closeMenu();
+            menuToggle.focus();
+        });
+
+        menuToggle.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            closeMenu();
+            menuToggle.focus();
+        });
+
+        navMenu.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            closeMenu();
+            menuToggle.focus();
         });
     }
 
